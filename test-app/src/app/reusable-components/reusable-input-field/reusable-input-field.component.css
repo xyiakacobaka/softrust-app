@@ -1,0 +1,36 @@
+.fieldContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  gap: 10px;
+}
+.fieldContainer label {
+  font-size: 14px;
+  width: 20%;
+}
+.inputField {
+  width: 100%;
+  height: 20px;
+  border-radius: 7px;
+  border: 2px solid gray;
+  outline: none;
+  padding-left: 30px;
+}
+.inputContainer {
+  display: flex;
+  width: 70%;
+  position: relative;
+  align-items: center;
+}
+input text {
+  padding: 10px;
+}
+input.ng-touched.ng-invalid {
+  border: solid #ef350b 2px;
+}
+input.ng-touched.ng-valid {
+  border: solid rgb(16, 180, 16) 2px;
+}

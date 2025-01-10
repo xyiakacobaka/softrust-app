@@ -1,0 +1,16 @@
+<div class="fieldContainer">
+  <label>{{ label }}</label>
+  <div class="inputContainer">
+    <input
+      [name]="name"
+      [(ngModel)]="value"
+      #inputControl="ngModel"
+      [required]="required"
+      [pattern]="pattern"
+      class="inputField"
+      [placeholder]="placeholder"
+      [mask]="mask"
+    />
+    <ng-content></ng-content>
+  </div>
+</div>

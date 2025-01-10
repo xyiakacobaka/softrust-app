@@ -1,0 +1,68 @@
+<form>
+  <div class="titleContainer">
+    <label>Напишите нам</label>
+  </div>
+  <reusable-input-field label="Ваше имя:" [required]="true">
+    <man-icon-svg></man-icon-svg>
+  </reusable-input-field>
+  <reusable-input-field
+    label="Ваш Email:"
+    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    [required]="true"
+  >
+    <email-icon-svg></email-icon-svg>
+  </reusable-input-field>
+  <reusable-input-field
+    label="Ваш телефон:"
+    pattern="^8[0-9]{10}"
+    mask="0-000-000-0000"
+    [required]="true"
+    placeholder="8-000-000-0000"
+  >
+    <phone-icon-svg></phone-icon-svg>
+  </reusable-input-field>
+  <div class="fieldContainer">
+    <label>Тема:</label>
+    <select
+      [(ngModel)]="loginForm.selectedTheme"
+      name="Theme"
+      class="inputContainer"
+      NonZero
+    >
+      <option
+        *ngFor="let option of options"
+        [value]="option.id"
+        style="border-radius: 1rem"
+      >
+        {{ option.label }}
+      </option>
+    </select>
+  </div>
+  <div class="messageContainer">
+    <label>Ваше сообщение:</label>
+    <input
+      type="text"
+      [(ngModel)]="loginForm.message"
+      required
+      name="messageField"
+      class="messageInput"
+    />
+  </div>
+  <div class="fieldContainer">
+    <label>Цифры:</label>
+    <div class="inputContainer">
+      <input
+        type="tel"
+        [(ngModel)]="loginForm.phoneNumber"
+        name="phoneNumber"
+        required
+        pattern="[0-9]{11}"
+        mask="0-000-000-0000"
+        class="inputField"
+      />
+    </div>
+  </div>
+  <div class="buttonContainer">
+    <button (click)="printForm()">Войти</button>
+  </div>
+</form>
