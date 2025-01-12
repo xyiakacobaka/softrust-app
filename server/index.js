@@ -36,6 +36,30 @@ app.get("/captcha", async (_, res) => {
   }
 });
 
+app.post("/validate-captcha", async (req, res) => {
+  const { captchaId, userInput } = req.body;
+
+  await client
+    .get(captchaId)
+    .then((savedCaptcha) => {
+      if (!savedCaptcha) {
+        return res
+          .status(400)
+          .json({ error: "Капча не найдена или сессия устарела" });
+      }
+      if (savedCaptcha.toLowerCase() === userInput.toLowerCase()) {
+        res.status(200).json({ valid: true });
+      } else {
+        client.del(captchaId);
+        res.status(200).json({ valid: false });
+      }
+    })
+    .catch((err) => {
+      console.error("Ошибка при получении капчи из Redis:", err);
+      res.status(500).json({ error: "Ошибка сервера" });
+    });
+});
+
 app.listen(3000, () => {
   console.log("Сервер запущен на http://localhost:3000");
 });

@@ -10,6 +10,8 @@
 .fieldContainer label {
   font-size: 14px;
   width: 20%;
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 600;
 }
 .inputField {
   width: 100%;

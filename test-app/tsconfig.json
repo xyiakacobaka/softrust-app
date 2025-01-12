@@ -25,6 +25,7 @@
       "@components/*": ["src/app/components/*"],
       "@validators/*": ["src/validator-directives/*"],
       "@masks-options/*": ["src/masks-options/*"],
+      "@forms/*" : ["src/app/components/forms/*"]
     },
   },
   "angularCompilerOptions": {

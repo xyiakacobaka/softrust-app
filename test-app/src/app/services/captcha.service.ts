@@ -7,7 +7,7 @@ import { CAPTCHA } from "src/types";
   providedIn: "root",
 })
 export class CaptchaService {
-  private apiUrl = "http://localhost:3000"; // URL вашего локального сервера
+  private apiUrl = "http://localhost:3000";
 
   constructor(private http: HttpClient) {}
 
