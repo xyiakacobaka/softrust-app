@@ -5,12 +5,11 @@
       [name]="name"
       [(ngModel)]="value"
       #inputControl="ngModel"
-      [required]="required"
+      [required]="true"
       [pattern]="pattern"
       class="inputField"
       [placeholder]="placeholder"
-      [mask]="mask"
-    />
+      [mask]="mask" />
     <ng-content></ng-content>
   </div>
 </div>

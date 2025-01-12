@@ -3,12 +3,12 @@ import { FormsModule } from "@angular/forms";
 import { NgxMaskDirective } from "ngx-mask";
 
 @Component({
-  selector: "reusable-input-field",
-  templateUrl: "./reusable-input-field.component.html",
-  styleUrls: ["./reusable-input-field.component.css"],
+  selector: "input-field",
+  templateUrl: "./field-input.component.html",
+  styleUrls: ["./field-input.component.css"],
   imports: [FormsModule, NgxMaskDirective],
 })
-export class ReusableInputFieldComponent {
+export class InputFieldComponent {
   @Input() label: string = "";
   @Input() name: string = "";
   @Input() value: string = "";

@@ -1,50 +1,75 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { NgxMaskDirective } from "ngx-mask";
 
-import { PhoneIconSVGComponent } from "../assets/phone-icon/PhoneIconComponent";
-import { EmailIconSVGComponent } from "../assets/email-icon/EmailIconComponent";
-import { ManIconSVGComponent } from "../assets/man-icon/ManIcon";
-import { NonZeroValidatorDirective } from "../validator-directives/nonZeroValidator";
-import { ReusableInputFieldComponent } from "./reusable-components/reusable-input-field/reusable-input-field.component";
+import { PhoneIconSVGComponent } from "@assets/phone-icon/PhoneIconComponent";
+import { EmailIconSVGComponent } from "@assets/email-icon/EmailIconComponent";
+import { ManIconSVGComponent } from "@assets/man-icon/ManIcon";
+import { NonZeroValidatorDirective } from "@validators/nonZeroValidator";
+import { InputFieldComponent } from "@components/field-input/field-input.component";
+import { Theme } from "src/types";
+import { ThemeService } from "./services/theme.service";
+import { CaptchaService } from "./services/captcha.service";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
   selector: "app-root",
   imports: [
     FormsModule,
     CommonModule,
-
     PhoneIconSVGComponent,
     EmailIconSVGComponent,
     ManIconSVGComponent,
     NonZeroValidatorDirective,
-    ReusableInputFieldComponent,
+    InputFieldComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
   standalone: true,
 })
-export class AppComponent {
-  options = [
-    { id: 1, label: "фа" },
-    { id: 2, label: "Опция 2" },
-    { id: 3, label: "Опция 3" },
-  ];
+export class AppComponent implements OnInit {
+  captchaSvg: SafeHtml | null = null;
+  captchaId: string | null = null;
+  themes: Theme[] = [];
+
+  constructor(
+    private http: ThemeService,
+    private captchaService: CaptchaService,
+    private sanitizer: DomSanitizer
+  ) {}
+
+  ngOnInit() {
+    this.http
+      .getThemes()
+      .subscribe({ next: (data: any) => (this.themes = data["themes"]) });
+    this.loadCaptcha();
+  }
+
   loginForm: any = {
     name: "",
     email: "",
     phoneNubmer: "",
     selectedTheme: 0,
-    themes: this.options,
+    themes: this.themes,
     message: "",
   };
-  printForm() {
-    console.log(this.loginForm.selectedTheme);
+
+  loadCaptcha(): void {
+    this.captchaService.getCaptcha().subscribe({
+      next: (response) => {
+        this.captchaSvg = this.sanitizer.bypassSecurityTrustHtml(response.data);
+        this.captchaId = response.id;
+      },
+      error: (err) => {
+        console.error("Ошибка при получении CAPTCHA:", err);
+      },
+    });
   }
-  nonZeroValue() {
-    if (this.loginForm.selectedTheme === 0) {
-      return;
+  onSubmit(form: any): void {
+    if (form.valid) {
+      console.log("Форма валидна:", this.loginForm);
+    } else {
+      console.log("Форма невалидна", form.value);
     }
   }
 }
