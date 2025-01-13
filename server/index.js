@@ -3,7 +3,10 @@ const cors = require("cors");
 const redis = require("redis");
 const svgCaptcha = require("svg-captcha");
 const { v4: uuidv4 } = require("uuid");
+const db = require("./db");
+
 const app = express();
+const port = 3000;
 
 app.use(express.json());
 
@@ -60,6 +63,6 @@ app.post("/validate-captcha", async (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-  console.log("Сервер запущен на http://localhost:3000");
+app.listen(port, () => {
+  console.log(`Сервер запущен на http://localhost:${port}`);
 });
