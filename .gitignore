@@ -8,7 +8,7 @@ node_modules/
 *.log
 
 # Игнорировать папку .angular
-.angular/*
+.angular/
 
 # Игнорировать папку dist
 dist/
@@ -22,3 +22,7 @@ Thumbs.db
 
 # Игнорировать папку .vscode (для Visual Studio Code)
 .vscode
+
+obj/
+
+bin/
