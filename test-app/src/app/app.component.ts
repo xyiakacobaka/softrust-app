@@ -13,7 +13,7 @@ import { MessageFormComponent } from "@forms/mesage.form";
 export class AppComponent {
   formValid: boolean = false;
   onFormSubmitted(data: boolean) {
-    this.formValid = data; // Получаем данные от дочернего компонента
+    this.formValid = data;
     console.log(this.formValid);
   }
 }

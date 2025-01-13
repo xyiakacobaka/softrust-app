@@ -6,3 +6,4 @@ export type CAPTCHA = {
   id: string;
   data: string;
 };
+export type MessageForm = {};

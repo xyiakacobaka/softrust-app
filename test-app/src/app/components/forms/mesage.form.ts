@@ -12,6 +12,7 @@ import { ThemeService } from "@services/theme.service";
 import { CaptchaService } from "@services/captcha.service";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ValidateService } from "@services/validate.service";
+import { Subject, takeUntil } from "rxjs";
 
 @Component({
   selector: "message-form",
@@ -34,20 +35,7 @@ export class MessageFormComponent implements OnInit {
   themes: Theme[] = [];
   captchaValid: boolean = false;
   @Output() formSubmitted = new EventEmitter<boolean>();
-
-  constructor(
-    private http: ThemeService,
-    private captchaService: CaptchaService,
-    private validateCaptcha: ValidateService,
-    private sanitizer: DomSanitizer
-  ) {}
-
-  ngOnInit() {
-    this.http
-      .getThemes()
-      .subscribe({ next: (data: any) => (this.themes = data["themes"]) });
-    this.loadCaptcha();
-  }
+  private destroy$ = new Subject<void>();
 
   loginForm: any = {
     userName: "",
@@ -58,18 +46,45 @@ export class MessageFormComponent implements OnInit {
     captcha: "",
   };
 
-  loadCaptcha(): void {
-    this.captchaService.getCaptcha().subscribe({
-      next: (response) => {
-        this.captchaSvg = this.sanitizer.bypassSecurityTrustHtml(response.data);
-        this.captchaId = response.id;
-      },
-      error: (err) => {
-        console.error("Ошибка при получении CAPTCHA:", err);
-      },
-    });
+  constructor(
+    private http: ThemeService,
+    private captchaService: CaptchaService,
+    private validateCaptcha: ValidateService,
+    private sanitizer: DomSanitizer
+  ) {}
+
+  ngOnInit() {
+    this.loadThemes();
+    this.loadCaptcha();
   }
 
+  loadThemes(): void {
+    this.http
+      .getThemes()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data: any) => (this.themes = data["themes"]),
+        error: (err) => {
+          console.error("Ошибка при загрузке тем:", err);
+        },
+      });
+  }
+  loadCaptcha(): void {
+    this.captchaService
+      .getCaptcha()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.captchaSvg = this.sanitizer.bypassSecurityTrustHtml(
+            response.data
+          );
+          this.captchaId = response.id;
+        },
+        error: (err) => {
+          console.error("Ошибка при получении CAPTCHA:", err);
+        },
+      });
+  }
   onSubmit(form: NgForm): void {
     if (form.valid) {
       this.validateCaptcha

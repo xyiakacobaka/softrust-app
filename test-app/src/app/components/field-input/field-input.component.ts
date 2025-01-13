@@ -63,14 +63,13 @@ export class InputFieldComponent implements ControlValueAccessor, Validator {
     this.onTouched = fn;
   }
 
-  // Метод Validator
   validate(control: FormControl): { [key: string]: any } | null {
     if (this.required && !control.value) {
       return { required: true };
     }
     if (this.pattern && !new RegExp(this.pattern).test(control.value)) {
-      return { pattern: true }; // Возвращаем ошибку, если значение не соответствует паттерну
+      return { pattern: true };
     }
-    return null; // Валидация прошла успешно
+    return null;
   }
 }
