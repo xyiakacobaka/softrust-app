@@ -11,7 +11,7 @@ export class ThemeService {
   constructor(private http: HttpClient) {}
 
   getThemes(): Observable<Theme[]> {
-    return this.http.get<Theme[]>("/assets/data.json");
+    return this.http.get<Theme[]>("/assets/initialThemes.json");
   }
   getCAPTCHA() {
     console.log(this.http.get(`${this.apiUrl}/captcha`));

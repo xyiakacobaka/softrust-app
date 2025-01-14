@@ -71,13 +71,25 @@ This form is for sending messages. Messages are divided into topics, which can b
    dotnet restore
    ```
 
-   2.3. Go to the API folder in the terminal
+   2.3 Create PostgreSQL Database with initial data
+
+   ```bash
+   dotnet ef migrations add <MigrationName> --project MessageFormAPI.Infrastructure --startup-project MessageFormAPI.API
+   ```
+
+   2.4 Apply the generated migration
+
+   ```bash
+   dotnet ef database update --project MessageFormAPI.Infrastructure --startup-project MessageFormAPI.API
+   ```
+
+   2.5. Go to the API folder in the terminal
 
    ```bash
    cd MessageFormAPI.API
    ```
 
-   2.4. Launch Swagger
+   2.6. Launch Swagger
 
    ```bash
    dotnet watch run

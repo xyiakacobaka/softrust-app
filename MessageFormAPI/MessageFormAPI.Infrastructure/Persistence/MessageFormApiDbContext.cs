@@ -34,11 +34,10 @@ namespace MessageFormApi.Infrastructure.Persistence
         {
             if (Themes.Any())
             {
-                return; // Данные уже заполнены
+                return; 
             }
 
-            // Загрузка данных из файла data.json
-            var json = File.ReadAllText("Data/themes.json");
+            var json = File.ReadAllText("Data/initialThemes.json");
             
             var seedData = JsonSerializer.Deserialize<SeedData>(json);
             Console.WriteLine(seedData);

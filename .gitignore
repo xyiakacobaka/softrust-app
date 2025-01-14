@@ -24,6 +24,13 @@ Thumbs.db
 .vscode
 .vs
 
+#Игнорировать папки сборки проекта
 obj/
 Migrations/
 bin/
+
+# Игнорировать пользовательские файлы проектов
+*.csproj.user
+*.suo
+*.user
+*.userosscache

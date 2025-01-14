@@ -56,6 +56,7 @@ export class MessageFormComponent implements OnInit {
   ngOnInit() {
     this.loadThemes();
     this.loadCaptcha();
+    console.log(this.formSubmitted);
   }
 
   loadThemes(): void {
@@ -63,12 +64,13 @@ export class MessageFormComponent implements OnInit {
       .getThemes()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (data: any) => (this.themes = data["themes"]),
+        next: (data: any) => (this.themes = data["Themes"]),
         error: (err) => {
           console.error("Ошибка при загрузке тем:", err);
         },
       });
   }
+
   loadCaptcha(): void {
     this.captchaService
       .getCaptcha()
@@ -85,6 +87,7 @@ export class MessageFormComponent implements OnInit {
         },
       });
   }
+
   onSubmit(form: NgForm): void {
     if (form.valid) {
       this.validateCaptcha
