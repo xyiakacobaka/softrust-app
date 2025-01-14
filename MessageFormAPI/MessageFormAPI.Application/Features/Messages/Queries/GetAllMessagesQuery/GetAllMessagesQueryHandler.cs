@@ -1,16 +1,11 @@
 ﻿using MediatR;
-using MessageFormApi.Domain.Models;
 using MessageFormApi.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MessageFormApi.Application.Features.DTOs;
 
 namespace MessageFormApi.Application.Features.Messages.Queries.GetAllMessagesQuery
 {
-    public class GetAllMessagesQueryHandler : IRequestHandler<GetAllMessagesQuery, IEnumerable<Message>>
+    public class GetAllMessagesQueryHandler : IRequestHandler<GetAllMessagesQuery, IEnumerable<MessageDto>>
     {
         private readonly MessageFormApiDbContext _context;
 
@@ -19,12 +14,20 @@ namespace MessageFormApi.Application.Features.Messages.Queries.GetAllMessagesQue
             _context = context;
         }
 
-        public async Task<IEnumerable<Message>> Handle(GetAllMessagesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MessageDto>> Handle(GetAllMessagesQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Messages
+            var messages = await _context.Messages
                 .Include(m => m.Theme)
                 .Include(m => m.Contact)
                 .ToListAsync(cancellationToken);
+
+            // Преобразование сущностей в DTO
+            return messages.Select(m => new MessageDto
+            {
+                Id = m.Id,
+                Content = m.Content,
+
+            });
         }
     }
 }

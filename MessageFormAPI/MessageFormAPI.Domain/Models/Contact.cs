@@ -22,10 +22,8 @@ namespace MessageFormApi.Domain.Models
         public required string Email { get; set; }
 
         [MaxLength(20)]
-        [RegularExpression(@"^8\d{10}", ErrorMessage = "Invalid email format.")]
+        [RegularExpression(@"^8\d{10}", ErrorMessage = "Invalid phone format.")]
         public required string PhoneNumber { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public ICollection<Message> Messages { get; set; } = new List<Message>();
     }

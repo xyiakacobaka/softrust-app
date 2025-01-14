@@ -1,5 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
+using MessageFormApi.Application.Features.DTOs;
 using MessageFormApi.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,23 +11,24 @@ using System.Threading.Tasks;
 
 namespace MessageFormApi.Application.Features.Contacts.Commands.UpdateContactCommand
 {
-    public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand, Unit>
+    public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand, ContactDto>
     {
         private readonly MessageFormApiDbContext _context;
+        private readonly IMapper _mapper;
 
-        public UpdateContactCommandHandler(MessageFormApiDbContext context)
+        public UpdateContactCommandHandler(MessageFormApiDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
+        public async Task<ContactDto> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
         {
-            var contact = await _context.Contacts.FindAsync(request.Id, cancellationToken);
+            var contact = await _context.Contacts
+                .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
 
             if (contact == null)
-            {
-                throw new Exception("Contact not found");
-            }
+                return null;
 
             contact.UserName = request.UserName;
             contact.Email = request.Email;
@@ -32,7 +36,7 @@ namespace MessageFormApi.Application.Features.Contacts.Commands.UpdateContactCom
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            return _mapper.Map<ContactDto>(contact);
         }
     }
 }

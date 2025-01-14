@@ -1,15 +1,14 @@
 ﻿using MediatR;
 using MessageFormApi.Application.Features.DTOs;
-using MessageFormApi.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MessageFormApi.Application.Features.Messages.Queries.GetAllMessagesQuery
+namespace MessageFormApi.Application.Features.Themes.Commands.DeleteAllThemesCommand
 {
-    public class GetAllMessagesQuery : IRequest<IEnumerable<MessageDto>>
+    public class DeleteAllThemesCommand : IRequest<DeleteResultDto>
     {
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MessageFormApi.Application.Features.Messages.Queries
+namespace MessageFormApi.Application.Features.DTOs
 {
     public class MessageDto
     {
@@ -12,7 +12,5 @@ namespace MessageFormApi.Application.Features.Messages.Queries
         public string Content { get; set; }
         public int ThemeId { get; set; }
         public int ContactId { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
     }
 }

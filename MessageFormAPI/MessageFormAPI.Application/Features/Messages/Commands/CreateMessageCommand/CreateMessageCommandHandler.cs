@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using MessageFormApi.Application.Features.Messages.Commands.CreateMessageCommand;
-using MessageFormApi.Application.Features.Messages.Queries;
 using MessageFormApi.Domain.Models;
 using MessageFormApi.Infrastructure.Persistence;
 using System.Threading;
 using System.Threading.Tasks;
+using MessageFormApi.Application.Features.DTOs;
 
 namespace MessageFormAPI.Application.Features.Messages.Commands
 {
@@ -46,8 +46,6 @@ namespace MessageFormAPI.Application.Features.Messages.Commands
                 Content = message.Content,
                 ThemeId = message.ThemeId,
                 ContactId = message.ContactId,
-                CreatedAt = message.CreatedAt,
-                UpdatedAt = message.UpdatedAt
             };
         }
     }

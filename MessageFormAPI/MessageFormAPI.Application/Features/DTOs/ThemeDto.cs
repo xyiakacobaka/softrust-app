@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MessageFormApi.Application.Features.Themes.Queries
+namespace MessageFormApi.Application.Features.DTOs
 {
     public class ThemeDto
     {

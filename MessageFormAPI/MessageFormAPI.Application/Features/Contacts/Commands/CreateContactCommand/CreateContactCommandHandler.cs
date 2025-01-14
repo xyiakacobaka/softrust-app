@@ -1,24 +1,23 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
+using MessageFormApi.Application.Features.DTOs;
 using MessageFormApi.Domain.Models;
 using MessageFormApi.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MessageFormApi.Application.Features.Contacts.Commands.CreateContactCommand
 {
-    public class CreateContactCommandHandler : IRequestHandler<CreateContactCommand, Contact>
+    public class CreateContactCommandHandler : IRequestHandler<CreateContactCommand, ContactDto>
     {
         private readonly MessageFormApiDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CreateContactCommandHandler(MessageFormApiDbContext context)
+        public CreateContactCommandHandler(MessageFormApiDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<Contact> Handle(CreateContactCommand request, CancellationToken cancellationToken)
+        public async Task<ContactDto> Handle(CreateContactCommand request, CancellationToken cancellationToken)
         {
             var contact = new Contact
             {
@@ -30,7 +29,7 @@ namespace MessageFormApi.Application.Features.Contacts.Commands.CreateContactCom
             _context.Contacts.Add(contact);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return contact;
+            return _mapper.Map<ContactDto>(contact);
         }
     }
 }

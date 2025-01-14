@@ -1,18 +1,16 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using MessageFormApi.Application.Features.Contacts.Commands.CreateContactCommand;
 using MessageFormApi.Application.Features.Contacts.Commands.DeleteContactCommand;
 using MessageFormApi.Application.Features.Contacts.Commands.UpdateContactCommand;
 using MessageFormApi.Application.Features.Contacts.Queries.GetAllContactsQuery;
 using MessageFormApi.Application.Features.Contacts.Queries.GetContactByIdQuery;
-using MessageFormApi.Domain.Models;
+using MessageFormApi.Application.Features.DTOs;
 
 namespace MessageFormAPI.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ContactsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -22,52 +20,47 @@ namespace MessageFormAPI.API.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/Contacts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
+        public async Task<ActionResult<PagedResponse<ContactDto>>> GetAll(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
         {
-            var query = new GetAllContactsQuery();
+            var query = new GetAllContactsQuery { Page = page, PageSize = pageSize };
             var result = await _mediator.Send(query);
             return Ok(result);
         }
 
-        // GET: api/Contacts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Contact>> GetContact(int id)
+        public async Task<ActionResult<ContactDto>> GetById(int id)
         {
             var query = new GetContactByIdQuery { Id = id };
             var result = await _mediator.Send(query);
-            return Ok(result);
+            return result != null ? Ok(result) : NotFound();
         }
 
-        // POST: api/Contacts
         [HttpPost]
-        public async Task<ActionResult<Contact>> PostContact(CreateContactCommand command)
+        public async Task<ActionResult<ContactDto>> Create(CreateContactCommand command)
         {
             var result = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetContact), new { id = result.Id }, result);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
-        // PUT: api/Contacts/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact(int id, UpdateContactCommand command)
+        public async Task<ActionResult<ContactDto>> Update(int id, UpdateContactCommand command)
         {
             if (id != command.Id)
-            {
                 return BadRequest();
-            }
 
-            await _mediator.Send(command);
-            return NoContent();
+            var result = await _mediator.Send(command);
+            return result != null ? Ok(result) : NotFound();
         }
 
-        // DELETE: api/Contacts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContact(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
             var command = new DeleteContactCommand { Id = id };
-            await _mediator.Send(command);
-            return NoContent();
+            var result = await _mediator.Send(command);
+            return result ? NoContent() : NotFound();
         }
     }
 }

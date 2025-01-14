@@ -5,6 +5,7 @@ using MessageFormApi.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using MessageFormApi.Application.Features.DTOs;
 
 namespace MessageFormAPI.Application.Features.Messages.Queries
 {
@@ -36,8 +37,7 @@ namespace MessageFormAPI.Application.Features.Messages.Queries
                 Content = message.Content,
                 ThemeId = message.ThemeId,
                 ContactId = message.ContactId,
-                CreatedAt = message.CreatedAt,
-                UpdatedAt = message.UpdatedAt
+
             };
         }
     }
