@@ -1,9 +1,112 @@
 # Message form
 
-This form is for sending messages. Messages are divided into topics, which can be added to the [data.json](./test-app/src/assets/data.json) file
+This form is for sending messages. Messages are divided into topics, which can be added to the [data.json](./MessageFormAPI//MessageFormAPI.API/Data/themes.json) file
+
+## Get starded
+
+1. ### Start the Express Server
+
+   1.1. Go to the server folder in the terminal
+
+   ```bash
+   cd server
+   ```
+
+   1.2. Install dependencies
+
+   ```bash
+   npm install
+   ```
+
+   1.3. Start the Redis Server
+
+   ```bash
+   redis-server --daemonize yes
+   ```
+
+   1.4. Make sure the server is running and running on ports 6379
+
+   ```bash
+   Get-Process -Id (Get-NetTCPConnection -LocalPort 6379).OwningProcess
+   ```
+
+   If everything is ok, you will see a table like this:
+
+   | Handles | NPM(K) | PM(K) | WS(K) | CPU(s) | Id    | SI  | ProcessName  |
+   | ------- | ------ | ----- | ----- | ------ | ----- | --- | ------------ |
+   | 488     | 9      | 7932  | 9200  | 0.03   | 15840 | 3   | redis-server |
+
+   1.5 (Optional) If you don't have the Redis CLI, you can [install](https://github.com/microsoftarchive/redis/releases/tag/win-3.0.504).msi file
+
+   or use Chocolatey
+
+   ```choco
+   choco install redis
+   ```
+
+   1.6. Start the Express Server
+
+   ```bash
+   node index.js
+   ```
+
+   If everything is ok, you will see a two string like this:
+
+   ```bash
+   Сервер запущен на http://localhost:3000
+   Подключение выполнено
+   ```
+
+2. ### Start the Asp.Net Core Web Api
+
+   2.1. Go to the server folder in the terminal
+
+   ```bash
+   cd MessageFormAPI
+   ```
+
+   2.2. Install dependencies
+
+   ```
+   dotnet restore
+   ```
+
+   2.3. Go to the API folder in the terminal
+
+   ```bash
+   cd MessageFormAPI.API
+   ```
+
+   2.4. Launch Swagger
+
+   ```bash
+   dotnet watch run
+   ```
+
+3. ### Start the Angular app
+
+   3.1. Install dependencies
+
+   ```bash
+   npm install
+   ```
+
+   3.2. Start the app
+
+   ```bash
+   ng serve
+   ```
 
 ## Technology stack:
 
-- Frameworks: ExpressJS, Angular 19
-- Build: Angular CLI
-- Utils: Redux (needed to implement captcha)
+- ### Frameworks:
+
+  - ASP.NET Core
+  - Express JS
+  - Angular 19
+  - EF Core
+
+- ### Databases:
+
+  - PostgreSQL (needed for storage messages)
+  - Redis(needed for storage captcha text)

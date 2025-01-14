@@ -6,6 +6,7 @@ using MessageFormApi.Application.Features.Contacts.Commands.UpdateContactCommand
 using MessageFormApi.Application.Features.Contacts.Queries.GetAllContactsQuery;
 using MessageFormApi.Application.Features.Contacts.Queries.GetContactByIdQuery;
 using MessageFormApi.Application.Features.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace MessageFormAPI.API.Controllers
 {
@@ -41,8 +42,15 @@ namespace MessageFormAPI.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ContactDto>> Create(CreateContactCommand command)
         {
-            var result = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            try
+            {
+                var result = await _mediator.Send(command);
+                return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]

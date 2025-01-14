@@ -26,7 +26,8 @@ namespace MessageFormApi.Application.Features.Messages.Queries.GetAllMessagesQue
             {
                 Id = m.Id,
                 Content = m.Content,
-
+                ThemeId = m.ThemeId,
+                ContactId = m.ContactId,
             });
         }
     }
