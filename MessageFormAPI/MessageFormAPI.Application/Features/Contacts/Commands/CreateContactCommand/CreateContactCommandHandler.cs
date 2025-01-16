@@ -42,7 +42,7 @@ namespace MessageFormApi.Application.Features.Contacts.Commands.CreateContactCom
 
             if (existingContact != null)
             {
-                throw new ValidationException("A contact with the same email and phone number already exists.");
+                return _mapper.Map<ContactDto>(existingContact);
             }
 
             // Создание нового контакта

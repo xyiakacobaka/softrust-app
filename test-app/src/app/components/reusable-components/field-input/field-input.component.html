@@ -1,0 +1,15 @@
+<div class="fieldContainer">
+  <label>{{ label }}</label>
+  <div class="inputContainer">
+    <input
+      [name]="name"
+      [(ngModel)]="value"
+      [required]="true"
+      [pattern]="pattern"
+      class="inputField"
+      [placeholder]="placeholder"
+      [mask]="mask"
+      (blur)="onTouched()" />
+    <ng-content></ng-content>
+  </div>
+</div>

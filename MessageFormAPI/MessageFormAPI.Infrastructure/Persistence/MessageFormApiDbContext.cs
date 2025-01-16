@@ -29,31 +29,5 @@ namespace MessageFormApi.Infrastructure.Persistence
 
             base.OnModelCreating(modelBuilder);
         }
-
-        public void SeedThemes()
-        {
-            if (Themes.Any())
-            {
-                return; 
-            }
-
-            var json = File.ReadAllText("Data/initialThemes.json");
-            
-            var seedData = JsonSerializer.Deserialize<SeedData>(json);
-            Console.WriteLine(seedData);
-            if (seedData?.Themes != null)
-            {
-                foreach (var themeSeed in seedData.Themes)
-                {
-                    Themes.Add(new Theme
-                    {
-                        Id = themeSeed.id,
-                        ThemeLabel = themeSeed.label
-                    });
-                }
-
-                SaveChanges();
-            }
-        }
     }
 }
