@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 
-import { MessageFormComponent } from "@forms/mesage.form";
+import { MessageFormComponent } from "@app/components/forms/mesage-form";
 
 @Component({
   selector: "app-root",

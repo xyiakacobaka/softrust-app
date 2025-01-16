@@ -23,10 +23,10 @@
       "@assets/*": ["src/assets/*"],
       "@services/*": ["src/app/services/*"],
       "@components/*": ["src/app/components/*"],
-      "@validators/*": ["src/validator-directives/*"],
-      "@masks-options/*": ["src/masks-options/*"],
-      "@forms/*" : ["src/app/components/forms/*"]
-    },
+      "@validators/*": ["src/app/validator-directives/*"],
+      "@masks-options/*": ["src/app/options/*"],
+      "@forms/*": ["src/app/components/forms/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

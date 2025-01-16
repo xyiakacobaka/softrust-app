@@ -2,16 +2,16 @@ import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormsModule, NgForm } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 
-import { PhoneIconSVGComponent } from "@assets/phone-icon/PhoneIconComponent";
-import { EmailIconSVGComponent } from "@assets/email-icon/EmailIconComponent";
-import { ManIconSVGComponent } from "@assets/man-icon/ManIcon";
-import { NonZeroValidatorDirective } from "@validators/nonZeroValidator";
+import { PhoneIconSVGComponent } from "@assets/phone-icon/phone-icon.component";
+import { EmailIconSVGComponent } from "@assets/email-icon/email-icon.component";
+import { ManIconSVGComponent } from "@assets/man-icon/man-icon.component";
+import { NonZeroValidatorDirective } from "@app/shared/directives/non-zero.directive";
 import { InputFieldComponent } from "@components/field-input/field-input.component";
 import { Theme } from "src/types";
-import { ThemeService } from "@services/theme.service";
-import { CaptchaService } from "@services/captcha.service";
+import { ThemeService } from "@app/services/get-theme.service";
+import { CaptchaService } from "@app/services/get-captcha.service";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { ValidateService } from "@services/validate.service";
+import { ValidateService } from "@app/services/validate-captcha.service";
 import { Subject, takeUntil } from "rxjs";
 
 @Component({
@@ -25,8 +25,8 @@ import { Subject, takeUntil } from "rxjs";
     NonZeroValidatorDirective,
     InputFieldComponent,
   ],
-  templateUrl: "./mesage.form.html",
-  styleUrls: ["./mesage.form.css"],
+  templateUrl: "./mesage-form.html",
+  styleUrls: ["./mesage-form.css"],
   standalone: true,
 })
 export class MessageFormComponent implements OnInit {

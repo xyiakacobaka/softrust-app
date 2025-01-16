@@ -7,14 +7,9 @@ import { CAPTCHA, Theme } from "src/types";
   providedIn: "root",
 })
 export class ThemeService {
-  private apiUrl = "http://localhost:3000";
   constructor(private http: HttpClient) {}
 
   getThemes(): Observable<Theme[]> {
     return this.http.get<Theme[]>("/assets/initialThemes.json");
-  }
-  getCAPTCHA() {
-    console.log(this.http.get(`${this.apiUrl}/captcha`));
-    return this.http.get<CAPTCHA>("http://localhost:3000/captcha");
   }
 }

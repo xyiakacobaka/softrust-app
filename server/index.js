@@ -3,7 +3,6 @@ const cors = require("cors");
 const redis = require("redis");
 const svgCaptcha = require("svg-captcha");
 const { v4: uuidv4 } = require("uuid");
-const db = require("./db");
 
 const app = express();
 const port = 3000;

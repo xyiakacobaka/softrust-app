@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 
 @Component({
-  selector: "phone-icon-svg",
+  selector: "man-icon",
   imports: [],
-  templateUrl: "./phone-icon.svg",
+  templateUrl: "./man-icon.svg",
   styles: [
     `
       :host {
@@ -14,5 +14,6 @@ import { Component } from "@angular/core";
       }
     `,
   ],
+  standalone: true,
 })
-export class PhoneIconSVGComponent {}
+export class ManIconSVGComponent {}
