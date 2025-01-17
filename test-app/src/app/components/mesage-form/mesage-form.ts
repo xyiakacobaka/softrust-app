@@ -2,7 +2,14 @@ import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormsModule, NgForm } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { Subject, takeUntil } from "rxjs";
+import {
+  catchError,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+  throwError,
+} from "rxjs";
 
 import { PhoneIconSVGComponent } from "@assets/phone-icon/phone-icon.component";
 import { EmailIconSVGComponent } from "@assets/email-icon/email-icon.component";
@@ -17,6 +24,8 @@ import { Router } from "@angular/router";
 import { LoadAndSaveThemesService } from "@app/services/theme.services/load-and-save-themes.service";
 import { AddContactService } from "@app/services/contact.services/add-contact.service";
 import { Contact } from "@app/shared/classes/contact";
+import { Message } from "@app/shared/classes/message";
+import { AddMessageService } from "@app/services/message.services/add-message.service";
 
 @Component({
   selector: "message-form",
@@ -51,6 +60,7 @@ export class MessageFormComponent implements OnInit {
 
   constructor(
     private addContactService: AddContactService,
+    private addMessageService: AddMessageService,
     private loadAndSaveThemeService: LoadAndSaveThemesService,
     private captchaService: GetCaptchaService,
     private validateCaptchaService: ValidateService,
@@ -96,16 +106,15 @@ export class MessageFormComponent implements OnInit {
     this.router.navigate(["/message", id]);
   }
 
-  addContact(contact: Contact): void {
-    this.addContactService.addContact(contact).subscribe({
-      next: (response) => {
-        console.log("Контакт успешно добавлен:", response);
-        this.navigateToAddedMessage(response.id);
-      },
-      error: (error) => {
+  async addContact(contact: Contact): Promise<number> {
+    return this.addContactService
+      .addContact(contact)
+      .toPromise()
+      .then((response) => response.id)
+      .catch((error) => {
         console.error("Ошибка при добавлении контакта:", error);
-      },
-    });
+        throw error;
+      });
   }
 
   onSubmit(form: NgForm): void {
@@ -114,7 +123,7 @@ export class MessageFormComponent implements OnInit {
         .validateCaptcha(this.captchaId, this.loginForm.captcha)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (captcha) => {
+          next: async (captcha) => {
             if (captcha.valid) {
               this.captchaIsValid = true;
               const contact: Contact = {
@@ -122,7 +131,16 @@ export class MessageFormComponent implements OnInit {
                 email: this.loginForm.email,
                 phoneNumber: this.loginForm.phoneNubmer,
               };
-              this.addContact(contact);
+              const contactId = await this.addContact(contact);
+              const message: Message = {
+                content: this.loginForm.message,
+                themeId: Number(this.loginForm.selectedTheme),
+                contactId,
+              };
+              this.addMessageService
+                .addMessage(message)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe((data) => this.navigateToAddedMessage(data.id));
             } else {
               this.captchaIsValid = false;
               this.loadCaptcha();
