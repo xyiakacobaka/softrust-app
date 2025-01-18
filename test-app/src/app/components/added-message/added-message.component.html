@@ -1,1 +1,36 @@
-<p>added-message works!</p>
+<div *ngIf="data">
+  <!-- Поле "Имя пользователя" -->
+  <div>
+    <strong>Имя пользователя:</strong>
+    <span>{{ data.userName }}</span>
+  </div>
+
+  <!-- Поле "Email" -->
+  <div>
+    <strong>Email:</strong>
+    <span>{{ data.email }}</span>
+  </div>
+
+  <!-- Поле "Телефон" -->
+  <div>
+    <strong>Телефон:</strong>
+    <span>{{ data.phoneNubmer }}</span>
+  </div>
+
+  <!-- Поле "Тема" -->
+  <div>
+    <strong>Тема:</strong>
+    <span>{{ data.theme }}</span>
+  </div>
+
+  <!-- Поле "Сообщение" -->
+  <div>
+    <strong>Сообщение:</strong>
+    <p>{{ data.message }}</p>
+  </div>
+</div>
+
+<!-- Если данные отсутствуют -->
+<div *ngIf="!data">
+  <p>Данные не загружены.</p>
+</div>

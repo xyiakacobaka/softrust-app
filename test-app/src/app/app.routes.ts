@@ -5,6 +5,6 @@ import { NotFoundComponent } from "./components/not-found/not-found.component";
 
 export const appRoutes: Routes = [
   { path: "", component: MessageFormComponent },
-  { path: "message/:id", component: AddedMessageComponent },
+  { path: "message", component: AddedMessageComponent },
   { path: "**", component: NotFoundComponent },
 ];
