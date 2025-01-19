@@ -7,16 +7,14 @@
     label="Ваше имя:"
     name="userName"
     [required]="true"
-    [(ngModel)]="loginForm.userName"
-  >
+    [(ngModel)]="loginForm.userName">
     <man-icon></man-icon>
   </input-field>
   <input-field
     label="Ваш Email:"
     pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     name="email"
-    [(ngModel)]="loginForm.email"
-  >
+    [(ngModel)]="loginForm.email">
     <email-icon></email-icon>
   </input-field>
   <input-field
@@ -25,8 +23,7 @@
     mask="0-000-000-0000"
     placeholder="8-000-000-0000"
     name="phoneNubmer"
-    [(ngModel)]="loginForm.phoneNubmer"
-  >
+    [(ngModel)]="loginForm.phoneNubmer">
     <phone-icon></phone-icon>
   </input-field>
   <div class="fieldContainer">
@@ -35,8 +32,7 @@
       [(ngModel)]="loginForm.selectedTheme"
       name="ThemeList"
       class="inputContainer"
-      non-zero
-    >
+      non-zero>
       <option *ngFor="let theme of themes" [value]="theme.id">
         {{ theme.themeLabel }}
       </option>
@@ -49,8 +45,7 @@
       [(ngModel)]="loginForm.message"
       required
       name="messageField"
-      class="messageInput"
-    />
+      class="messageInput" />
   </div>
   <div class="fieldContainer">
     <label>Captcha:</label>
@@ -63,12 +58,11 @@
         class="captchaField"
         [ngStyle]="{
           'border': captchaIsValid === false ? '2px solid red' : undefined
-        }"
-      />
+        }" />
       <div [innerHTML]="captchaSvg"></div>
     </div>
   </div>
   <div class="buttonContainer">
-    <button type="submit" [disabled]="form.invalid">Войти</button>
+    <button type="submit" [disabled]="form.invalid">Отправить</button>
   </div>
 </form>

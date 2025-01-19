@@ -24,7 +24,15 @@ This form is for sending messages. Messages are divided into topics, which can b
    redis-server --daemonize yes
    ```
 
-   1.4. Make sure the server is running and running on ports 6379
+   1.4 (Optional) If you don't have the Redis CLI, you can [install](https://github.com/microsoftarchive/redis/releases/tag/win-3.0.504).msi file
+
+   or use Chocolatey
+
+   ```choco
+   choco install redis
+   ```
+
+   1.5. Make sure the server is running and running on ports 6379
 
    ```bash
    Get-Process -Id (Get-NetTCPConnection -LocalPort 6379).OwningProcess
@@ -35,14 +43,6 @@ This form is for sending messages. Messages are divided into topics, which can b
    | Handles | NPM(K) | PM(K) | WS(K) | CPU(s) | Id    | SI  | ProcessName  |
    | ------- | ------ | ----- | ----- | ------ | ----- | --- | ------------ |
    | 488     | 9      | 7932  | 9200  | 0.03   | 15840 | 3   | redis-server |
-
-   1.5 (Optional) If you don't have the Redis CLI, you can [install](https://github.com/microsoftarchive/redis/releases/tag/win-3.0.504).msi file
-
-   or use Chocolatey
-
-   ```choco
-   choco install redis
-   ```
 
    1.6. Start the Express Server
 
@@ -57,45 +57,61 @@ This form is for sending messages. Messages are divided into topics, which can b
    Подключение выполнено
    ```
 
-2. ### Start the Asp.Net Core Web Api
+2. ### Install PostgreSQL Server
 
-   2.1. Go to the server folder in the terminal
+   2.1. Install [pgAdmin 4](https://www.pgadmin.org/download/) for needed platform
+
+   2.2 Change [ConnectionString](https://vscode.dev/github/xyiakacobaka/softrust-app/blob/main/MessageFormAPI/MessageFormAPI.API/appsettings.json#L10).
+
+   - Username - Your username for database authentication
+   - Password - Your password for user authentication
+
+3. ### Start the Asp.Net Core Web Api
+
+   3.1. Go to the server folder in the terminal
 
    ```bash
    cd MessageFormAPI
    ```
 
-   2.2. Install dependencies
+   3.2. Install dependencies
 
    ```
    dotnet restore
    ```
 
-   2.3 Create PostgreSQL Database with initial data
+   3.3 Create PostgreSQL Database with initial data
 
    ```bash
+   cd MessageFormAPI.API
    dotnet ef migrations add <MigrationName> --project MessageFormAPI.Infrastructure --startup-project MessageFormAPI.API
    ```
 
-   2.4 Apply the generated migration
+   3.4 Apply the generated migration
 
    ```bash
    dotnet ef database update --project MessageFormAPI.Infrastructure --startup-project MessageFormAPI.API
    ```
 
-   2.5. Go to the API folder in the terminal
+   3.5. Go to the API folder in the terminal
 
    ```bash
    cd MessageFormAPI.API
    ```
 
-   2.6. Launch Swagger
+   3.6. Launch Swagger
 
    ```bash
    dotnet watch run
    ```
 
-3. ### Start the Angular app
+4. ### Start the Angular app
+
+   3.1. Got to Angular app folder
+
+   ```bash
+   cd test-app
+   ```
 
    3.1. Install dependencies
 
